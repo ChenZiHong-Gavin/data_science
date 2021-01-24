@@ -1,0 +1,8 @@
+#!/home/chen/课件/Second_year/数据科学/大作业/分词/icwb2-data/scripts/venv/bin/python
+# -*- coding: utf-8 -*-
+import re
+import sys
+from pip._internal.cli.main import main
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())
