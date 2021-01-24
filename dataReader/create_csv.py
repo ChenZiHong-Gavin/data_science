@@ -1,6 +1,6 @@
 import csv
 
-from sentiment import Sentiment
+from sentiDict.sentiment import Sentiment
 from set_uid import read_json
 import jieba
 
