@@ -2,13 +2,24 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class Dictionary {
-    public static HashMap<String,Word> dic = new HashMap<>();
+    private static HashMap<String,Word> dic = new HashMap<>();
     static {
         try {
             dic = DataUtil.construct();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static HashMap<String, Integer> newWords = new HashMap<>();//未收录在词典中的词语及出现次数
+
+    /**
+     * 从词典中搜索一个词语
+     * @param s 名称
+     * @return 词语
+     */
+    public static Word get(String s) {
+        return dic.get(s);
     }
 
     /**

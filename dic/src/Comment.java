@@ -4,10 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import java.io.*;
 
 public class Comment {
-//    public static final String FILE_PATH = "src/data/weibo标注.csv";
-//    public static final String PATH = "src/data/calculate.csv";
     public static final String FILE_PATH = "src/data/分段数据/20.3.10-20.6.json";
-    public static final String PATH = "src/data/分段结果/3-6.txt";
+    public static final String PATH = "src/data/分段结果/tfidf.txt";
 
     public static final boolean TAG = false;//手动标签模式，默认关闭
 
@@ -17,8 +15,9 @@ public class Comment {
 
     public static void main(String[] args) throws IOException {
         JSONObject j = JSON.parseObject(readJsonFile());
-
+        TFIDFUtil.init(j);
         int t = 0;
+
         try {
             String s = j.getString(cnt+"");cnt++;
             while (s!=null) {
@@ -64,14 +63,14 @@ public class Comment {
         for (int i = 0; i < n; i++) {
             int max = -1;
             String key = "";
-            for (String s: Sentence.times.keySet()) {
-                if (max < Sentence.times.get(s)){
-                    max = Sentence.times.get(s);
+            for (String s: Dictionary.newWords.keySet()) {
+                if (max < Dictionary.newWords.get(s)){
+                    max = Dictionary.newWords.get(s);
                     key = s;
                 }
             }
             tag(key);
-            Sentence.times.remove(key);
+            Dictionary.newWords.remove(key);
         }
     }
 
@@ -80,7 +79,7 @@ public class Comment {
      *@param key 要打标签的词语
      */
     public static void tag(String key) throws IOException {
-        System.out.println(key + "(" + Sentence.times.get(key) + "次):");
+        System.out.println(key + "(" + Dictionary.newWords.get(key) + "次):");
         Word w;
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -97,8 +96,7 @@ public class Comment {
             w = new Word(key, str[0], str[1], str[2]);
         }
 
-        Dictionary.dic.put(key, w);
-        br.close();
+        Dictionary.add(w);
     }
 
     /**
